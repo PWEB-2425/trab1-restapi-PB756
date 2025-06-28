@@ -1,0 +1,15 @@
+{
+	"id": "1e4db843-1ac4-4508-8e28-4062c8b22521",
+	"name": "Trabalho1-Local",
+	"values": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:3001",
+			"type": "default",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-06-28T02:05:09.869Z",
+	"_postman_exported_using": "Postman/11.51.6-250627-0710"
+}
