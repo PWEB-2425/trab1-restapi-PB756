@@ -4,8 +4,8 @@ const cursoSchema = new mongoose.Schema({
   nomeCurso: { 
     type: String, 
     required: true,
-    unique: true, // Evita duplicatas
-    trim: true    // Remove espaços extras
+    unique: true,
+    trim: true
   }
 }, {
   versionKey: false

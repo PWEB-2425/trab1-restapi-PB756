@@ -1,6 +1,3 @@
-// frontend/main.js
-
-// Base URL definida em index.html via window.API_BASE_URL
 const baseUrl = window.API_BASE_URL;
 
 const tabelaBody = document.querySelector("#tabela-alunos tbody");
@@ -8,10 +5,8 @@ const form = document.getElementById("form-aluno");
 const btnCancelar = document.getElementById("btn-cancelar");
 const formTitle = document.getElementById("form-title");
 
-// Helper para getElementById
 const $ = (id) => document.getElementById(id);
 
-// Carrega cursos e popula o datalist
 async function carregarCursos() {
   try {
     const resp = await fetch(`${baseUrl}/cursos`);
@@ -28,7 +23,6 @@ async function carregarCursos() {
   }
 }
 
-// Gera a linha HTML de cada aluno
 function linhaAluno(aluno) {
   return `
     <tr>
@@ -46,7 +40,6 @@ function linhaAluno(aluno) {
   `;
 }
 
-// Lista todos os alunos na tabela
 async function listarAlunos() {
   try {
     const resp = await fetch(`${baseUrl}/alunos`);
@@ -57,7 +50,6 @@ async function listarAlunos() {
   }
 }
 
-// Cria um aluno via POST
 async function criarAluno(dados) {
   await fetch(`${baseUrl}/alunos`, {
     method: "POST",
@@ -66,7 +58,6 @@ async function criarAluno(dados) {
   });
 }
 
-// Atualiza um aluno via PUT
 async function atualizarAluno(id, dados) {
   await fetch(`${baseUrl}/alunos/${id}`, {
     method: "PUT",
@@ -75,12 +66,10 @@ async function atualizarAluno(id, dados) {
   });
 }
 
-// Apaga um aluno via DELETE
 async function apagarAluno(id) {
   await fetch(`${baseUrl}/alunos/${id}`, { method: "DELETE" });
 }
 
-// Delegação de eventos na tabela (editar / apagar)
 tabelaBody.addEventListener("click", async (e) => {
   const id = e.target.dataset.id;
 
@@ -107,7 +96,6 @@ tabelaBody.addEventListener("click", async (e) => {
   }
 });
 
-// Manipula o submit do formulário (criar ou atualizar)
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
@@ -138,7 +126,6 @@ form.addEventListener("submit", async (e) => {
   }
 });
 
-// Cancela a edição e reseta o formulário
 btnCancelar.addEventListener("click", () => {
   form.reset();
   $("aluno-id").value = "";
@@ -146,7 +133,6 @@ btnCancelar.addEventListener("click", () => {
   btnCancelar.style.display = "none";
 });
 
-// Inicialização
 carregarCursos();
 listarAlunos();
 

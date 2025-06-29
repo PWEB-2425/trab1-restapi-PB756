@@ -42,13 +42,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/alunos/6861459b2b17c41b9c582158",
+					"raw": "{{baseUrl}}/alunos/{{firstAlunoId}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"alunos",
-						"6861459b2b17c41b9c582158"
+						"{{firstAlunoId}}"
 					]
 				}
 			},
@@ -74,6 +74,16 @@
 						"type": "text/javascript",
 						"packages": {}
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
 				}
 			],
 			"request": {
@@ -84,7 +94,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"nome\": \"Francisco\",\r\n  \"apelido\": \"Ferreira\",\r\n  \"curso\": 1,\r\n  \"anoCurricular\": 3,\r\n  \"idade\": 22\r\n}\r\n",
+					"raw": "{\r\n  \"nome\": \"Francisco\",\r\n  \"apelido\": \"Ferreira\",\r\n  \"cursoText\": \"Engenharia de Redes e Sistemas de Computadores\",\r\n  \"anoCurricular\": 3,\r\n  \"idade\": 22\r\n}\r\n\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -133,7 +143,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"id\": 1,\r\n  \"nome\": \"Joana\",\r\n  \"apelido\": \"Silva\",\r\n  \"curso\": \"6861459b2b17c41b9c582155\",\r\n  \"anoCurricular\": 3,\r\n  \"idade\": 21\r\n}\r\n",
+					"raw": "{\r\n  \"nome\": \"Joana\",\r\n  \"apelido\": \"Silva\",\r\n  \"cursoText\": \"Engenharia de Redes e Sistemas de Computadores\",\r\n  \"anoCurricular\": 3,\r\n  \"idade\": 21\r\n}\r\n\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -141,13 +151,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{baseUrl}}/alunos/6861459b2b17c41b9c582158",
+					"raw": "{{baseUrl}}/alunos/{{firstAlunoId}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"alunos",
-						"6861459b2b17c41b9c582158"
+						"{{firstAlunoId}}"
 					]
 				}
 			},
@@ -161,14 +171,23 @@
 				},
 				"method": "DELETE",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
-					"raw": "{{baseUrl}}/alunos/6861459b2b17c41b9c582158",
+					"raw": "{{baseUrl}}/alunos/{{firstAlunoId}}",
 					"host": [
 						"{{baseUrl}}"
 					],
 					"path": [
 						"alunos",
-						"6861459b2b17c41b9c582158"
+						"{{firstAlunoId}}"
 					]
 				}
 			},

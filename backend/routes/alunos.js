@@ -4,7 +4,6 @@ const Aluno = require('../models/aluno');
 const Curso  = require('../models/curso');
 const router = express.Router();
 
-// Middleware para validar ObjectId
 const validateObjectId = (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ error: 'ID inválido' });
@@ -12,20 +11,17 @@ const validateObjectId = (req, res, next) => {
   next();
 };
 
-// GET /api/alunos
 router.get('/', async (_req, res) => {
   const lista = await Aluno.find().populate('curso');
   res.json(lista);
 });
 
-// GET /api/alunos/:id
 router.get('/:id', validateObjectId, async (req, res) => {
   const a = await Aluno.findById(req.params.id).populate('curso');
   if (!a) return res.status(404).json({ error: 'Aluno não encontrado' });
   res.json(a);
 });
 
-// POST /api/alunos
 router.post('/', async (req, res) => {
   try {
     const { nome, apelido, cursoText, anoCurricular, idade } = req.body;
@@ -34,7 +30,6 @@ router.post('/', async (req, res) => {
       return res.status(400).json({ error: 'Dados incompletos' });
     }
 
-    // procura ou cria curso
     let cursoDoc = await Curso.findOne({ nomeCurso: cursoText });
     if (!cursoDoc) {
       cursoDoc = await Curso.create({ nomeCurso: cursoText });
@@ -59,7 +54,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/alunos/:id
 router.put('/:id', validateObjectId, async (req, res) => {
   try {
     const { nome, apelido, cursoText, anoCurricular, idade } = req.body;
@@ -97,7 +91,6 @@ router.put('/:id', validateObjectId, async (req, res) => {
   }
 });
 
-// DELETE /api/alunos/:id
 router.delete('/:id', validateObjectId, async (req, res) => {
   await Aluno.findByIdAndDelete(req.params.id);
   res.status(204).end();

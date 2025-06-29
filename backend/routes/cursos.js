@@ -3,7 +3,6 @@ const mongoose = require('mongoose');
 const Curso = require('../models/curso');
 const router = express.Router();
 
-// Middleware para validar ObjectId
 const validateObjectId = (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return res.status(400).json({ error: 'ID inválido' });
@@ -11,7 +10,6 @@ const validateObjectId = (req, res, next) => {
   next();
 };
 
-// GET /api/cursos
 router.get('/', async (req, res) => {
   try {
     const lista = await Curso.find();
@@ -22,7 +20,6 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/cursos/:id
 router.get('/:id', validateObjectId, async (req, res) => {
   try {
     const c = await Curso.findById(req.params.id);
@@ -36,10 +33,8 @@ router.get('/:id', validateObjectId, async (req, res) => {
   }
 });
 
-// POST /api/cursos
 router.post('/', async (req, res) => {
   try {
-    // Validação básica
     if (!req.body.nomeCurso) {
       return res.status(400).json({ error: 'Nome do curso é obrigatório' });
     }
@@ -61,10 +56,8 @@ router.post('/', async (req, res) => {
   }
 });
 
-// PUT /api/cursos/:id
 router.put('/:id', validateObjectId, async (req, res) => {
   try {
-    // Validação básica
     if (!req.body.nomeCurso) {
       return res.status(400).json({ error: 'Nome do curso é obrigatório' });
     }
@@ -91,7 +84,6 @@ router.put('/:id', validateObjectId, async (req, res) => {
   }
 });
 
-// DELETE /api/cursos/:id
 router.delete('/:id', validateObjectId, async (req, res) => {
   try {
     const result = await Curso.findByIdAndDelete(req.params.id);
