@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3001";
+const baseUrl = "http://localhost:4000/api";
 const tabelaBody = document.querySelector("#tabela-alunos tbody");
 const form = document.getElementById("form-aluno");
 const btnCancelar = document.getElementById("btn-cancelar");
@@ -6,13 +6,33 @@ const formTitle = document.getElementById("form-title");
 
 const $ = (id) => document.getElementById(id);
 
+// Carregar cursos para o select
+async function carregarCursos() {
+  try {
+    const resp = await fetch(`${baseUrl}/cursos`);
+    const cursos = await resp.json();
+    const select = $("curso");
+    
+    // Limpar e adicionar novas opções
+    select.innerHTML = '';
+    cursos.forEach(curso => {
+      const option = document.createElement('option');
+      option.value = curso.id;
+      option.textContent = curso.nomeCurso;
+      select.appendChild(option);
+    });
+  } catch (err) {
+    console.error('Erro ao carregar cursos:', err);
+  }
+}
+
 function linhaAluno(aluno) {
   return `
     <tr>
       <td>${aluno.id}</td>
       <td>${aluno.nome}</td>
       <td>${aluno.apelido}</td>
-      <td>${aluno.curso}</td>
+      <td>${aluno.curso?.nomeCurso || aluno.curso}</td>
       <td>${aluno.anoCurricular}</td>
       <td>${aluno.idade ?? "-"}</td>
       <td>
@@ -24,9 +44,13 @@ function linhaAluno(aluno) {
 }
 
 async function listarAlunos() {
-  const resp = await fetch(`${baseUrl}/alunos`);
-  const alunos = await resp.json();
-  tabelaBody.innerHTML = alunos.map(linhaAluno).join("");
+  try {
+    const resp = await fetch(`${baseUrl}/alunos`);
+    const alunos = await resp.json();
+    tabelaBody.innerHTML = alunos.map(linhaAluno).join("");
+  } catch (err) {
+    console.error('Erro ao carregar alunos:', err);
+  }
 }
 
 async function criarAluno(dados) {
@@ -41,7 +65,7 @@ async function atualizarAluno(id, dados) {
   await fetch(`${baseUrl}/alunos/${id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ id, ...dados }),
+    body: JSON.stringify(dados),
   });
 }
 
@@ -51,20 +75,25 @@ async function apagarAluno(id) {
 
 tabelaBody.addEventListener("click", async (e) => {
   const id = e.target.dataset.id;
+  
   if (e.target.classList.contains("btn-apagar")) {
     if (confirm("Apagar aluno?")) {
       await apagarAluno(id);
       listarAlunos();
     }
   }
+  
   if (e.target.classList.contains("btn-editar")) {
-    const linha = e.target.closest("tr").children;
+    const resp = await fetch(`${baseUrl}/alunos/${id}`);
+    const aluno = await resp.json();
+    
     $("aluno-id").value = id;
-    $("nome").value = linha[1].textContent;
-    $("apelido").value = linha[2].textContent;
-    $("curso").value = linha[3].textContent;
-    $("ano").value = linha[4].textContent;
-    $("idade").value = linha[5].textContent !== "-" ? linha[5].textContent : "";
+    $("nome").value = aluno.nome;
+    $("apelido").value = aluno.apelido;
+    $("curso").value = aluno.curso.id; // Usar ID do curso
+    $("ano").value = aluno.anoCurricular;
+    $("idade").value = aluno.idade || "";
+    
     formTitle.textContent = "Editar aluno";
     btnCancelar.style.display = "inline";
   }
@@ -72,20 +101,33 @@ tabelaBody.addEventListener("click", async (e) => {
 
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  
   const dados = {
     nome: $("nome").value.trim(),
     apelido: $("apelido").value.trim(),
-    curso: +$("curso").value,
+    curso: $("curso").value, // Já é string (ObjectId)
     anoCurricular: +$("ano").value,
     idade: $("idade").value ? +$("idade").value : undefined,
   };
+  
   const id = $("aluno-id").value;
-  id ? await atualizarAluno(id, dados) : await criarAluno(dados);
-  form.reset();
-  $("aluno-id").value = "";
-  formTitle.textContent = "Adicionar aluno";
-  btnCancelar.style.display = "none";
-  listarAlunos();
+  
+  try {
+    if (id) {
+      await atualizarAluno(id, dados);
+    } else {
+      await criarAluno(dados);
+    }
+    
+    form.reset();
+    $("aluno-id").value = "";
+    formTitle.textContent = "Adicionar aluno";
+    btnCancelar.style.display = "none";
+    listarAlunos();
+  } catch (err) {
+    console.error('Erro ao salvar aluno:', err);
+    alert('Erro ao salvar aluno');
+  }
 });
 
 btnCancelar.addEventListener("click", () => {
@@ -95,4 +137,6 @@ btnCancelar.addEventListener("click", () => {
   btnCancelar.style.display = "none";
 });
 
+// Inicialização
+carregarCursos();
 listarAlunos();
