@@ -6,25 +6,23 @@ const formTitle = document.getElementById("form-title");
 
 const $ = (id) => document.getElementById(id);
 
-// Carregar cursos para o select
 async function carregarCursos() {
   try {
     const resp = await fetch(`${baseUrl}/cursos`);
     const cursos = await resp.json();
-    const select = $("curso");
+    const datalist = document.getElementById('lista-cursos');
     
-    // Limpar e adicionar novas opções
-    select.innerHTML = '';
+    datalist.innerHTML = '';
     cursos.forEach(curso => {
       const option = document.createElement('option');
-      option.value = curso._id;
-      option.textContent = curso.nomeCurso;
-      select.appendChild(option);
+      option.value = curso.nomeCurso;      // texto livre
+      datalist.appendChild(option);
     });
   } catch (err) {
     console.error('Erro ao carregar cursos:', err);
   }
 }
+
 
 function linhaAluno(aluno) {
   return `
@@ -90,7 +88,7 @@ tabelaBody.addEventListener("click", async (e) => {
     $("aluno-id").value = id;
     $("nome").value = aluno.nome;
     $("apelido").value = aluno.apelido;
-    $("curso").value = aluno.curso._id; // Usar ID do curso
+    $("curso-input").value = aluno.curso.nomeCurso;
     $("ano").value = aluno.anoCurricular;
     $("idade").value = aluno.idade || "";
     
@@ -106,7 +104,7 @@ form.addEventListener("submit", async (e) => {
   const dados = {
     nome: $("nome").value.trim(),
     apelido: $("apelido").value.trim(),
-    curso: $("curso").value, // Já é string (ObjectId)
+    cursoText: $("curso-input").value.trim(),  // texto livre
     anoCurricular: +$("ano").value,
     idade: $("idade").value ? +$("idade").value : undefined,
   };
