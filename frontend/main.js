@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:4000/api";
+const baseUrl = window.API_BASE_URL;
 const tabelaBody = document.querySelector("#tabela-alunos tbody");
 const form = document.getElementById("form-aluno");
 const btnCancelar = document.getElementById("btn-cancelar");
