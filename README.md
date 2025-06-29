@@ -1,153 +1,140 @@
-# Trabalho Prático #1
+# Trabalho Prático #1: Consumo e Implementação de APIs RESTful
 
-## Consumo e Implementação de APIs RESTful
+**Este guia mostra como configurar, executar localmente e testar o meu projeto, além de um breve resumo das tentativas de deploy.**
 
-### Objetivo Geral
-
-Consolidar os conhecimentos em desenvolvimento web com foco na criação, consumo e implementação de APIs RESTful utilizando tecnologias do ecossistema JavaScript:
-
-- Node.js + Express
-- MongoDB / MongoDB Atlas
-- JSON-Server
-- Fetch API
-- Swagger (opcional)
-
-O projeto simula o ciclo completo de desenvolvimento de uma aplicação web com front-end e back-end separados, incluindo testes e deploy.
+Autor: Pedro Barreto, 31661
 
 ---
 
-## Partes do Trabalho
+## 1. Visão Geral
 
-### Parte 1: Estruturação da Base de Dados (JSON)
-
-- Criar um ficheiro `bd.json` com:
-
-  - Lista de alunos: `nome`, `apelido`, `curso`, `anoCurricular`
-  - Lista de cursos: `nomeDoCurso`
-
-- 📁 Diretório sugerido: `/mock-data/`
-- 📄 Entregável: `bd.json`
+- **mock-data/**: dados iniciais em JSON (`bd.json`).
+- **mock-server/**: API simulada com JSON-Server.
+- **frontend/**: interface web (HTML/CSS/JS) com Fetch API.
+- **backend/**: API real em Node.js + Express + MongoDB Atlas.
+- **tests/**: coleção Postman para testes automáticos.
 
 ---
 
-### Parte 2: API Simulada com JSON-Server + Testes
+## 2. Pré-requisitos
 
-- Configurar e iniciar `json-server` com `bd.json`
-- Testar os endpoints com Postman (CRUD de alunos, leitura de cursos)
-- Exportar a coleção de testes
-
-- 📁 Diretório sugerido: `/mock-server/`
-- 📄 Entregáveis:
-  - Código de configuração (`package.json`, script json-server)
-  - Coleção `.json` do Postman em `/tests/`
+- **Node.js** (versão LTS, v16+)
+- **npm** (instalado com o Node.js)
+- **VS Code** com extensão **Live Server**
+- **Conta no MongoDB Atlas**&#x20;
 
 ---
 
-### Parte 3: Interface Web (CRUD de Alunos)
+## 3. Instalação e Execução Local
 
-- Desenvolver uma página web funcional para gerir alunos:
-  - Ver alunos
-  - Adicionar aluno
-  - Editar aluno
-  - Apagar aluno
-- Utilizar `Fetch API` e programação assíncrona
+### 3.1. Descrição da bd
 
-- 📁 Diretório sugerido: `/frontend/`
-- 📄 Entregável: Página funcional conectada à API simulada
+A base de dados inicial (em mock-data/bd.json) tem duas coleções:
 
----
+alunos: cada registro inclui
 
-### Parte 4: API RESTful real (Node.js + Express + MongoDB Atlas)
+   id (string) — identificador único no mock
 
-- Migrar os dados para o MongoDB Atlas
-- Implementar a API Express com endpoints equivalentes ao JSON-server
-- Manter a estrutura RESTful
-- Sugestão : usar mongoose a abordagem MVC (bónus 5%)
+   nome, apelido (strings)
 
-- 📁 Diretório sugerido: `/backend/`
-- 📄 Entregável: Código funcional da API com instruções
+   curso (número) — referencia o id de um curso
 
----
+   anoCurricular (número)
 
-### Parte 5: Deploy da Aplicação
+   idade (número)
 
-- Fazer deploy do front-end no [Vercel](https://vercel.com)
-- (Opcional) Fazer deploy da API no [Render](https://render.com)
-- Adaptar o front-end para consumir a nova API
+cursos: cada registro inclui
 
-📄 Incluir no `README.md`:
+   id (número) — identificador único
 
-- URL pública do front-end
-- URL da API real
-- 📄 Entregável: Links funcionais no repositório
+   nomeCurso (string) — designação do curso
 
----
+### 3.2. Clone do Repositório
 
-### Parte 6 (Bonificação): Documentação da API
+```bash
+git clone https://github.com/<user>/trab1-restapi-PB756.git
+cd trab1-restapi-PB756
+```
 
-- Utilizar Swagger para documentar os endpoints da API
-- Incluir rota `/api-docs` na aplicação
+### 3.3. Mock Server (JSON-Server)
 
-- 📁 Diretório sugerido: `/backend/docs/`
-- 📄 Entregável: Swagger funcional e acessível
+```bash
+cd mock-server
+npm install
+npm run start        # roda em http://localhost:3000
+```
 
----
+- Teste CRUD de alunos e leitura de cursos via `http://localhost:3000/alunos` e `/cursos`.
 
-## Organização do Projeto
+### 3.4. Backend Real
 
-```text
-projeto-raiz/
-│
-├── /frontend/ ← Interface web (HTML/CSS/JS)
-├── /backend/ ← API RESTful com Node.js + MongoDB
-├── /mock-server/ ← JSON-server configurado
-├── /mock-data/ ← Base de dados JSON original
-├── /tests/ ← Coleção de testes Postman
-├── README.md ← Instruções, links e notas
-└── .gitignore, etc.
+```bash
+cd ../backend
+npm install
+# Crie um arquivo .env com:
+# PORT=4000
+# MONGODB_URI=<sua-uri-atlas>
+npm run seed         # popula MongoDB Atlas
+npm run dev          # inicia API em http://localhost:4000/api
+```
+
+- Endpoints disponíveis: `/api/alunos`, `/api/cursos`, etc.
+
+### 3.5. Frontend com Live Server
+
+1. Abra **VS Code** na pasta `frontend`:
+   ```bash
+   cd ../frontend
+   code .
+   ```
+2. Instale a extensão **Live Server**.
+3. No **Explorer**, clique com o botão direito em `index.html` → **Open with Live Server**.
+4. Acesse no browser:
+
+      Deve abrir sozinho mas se não abir:
+   ```text
+   http://127.0.0.1:5500/frontend/index.html
+   ```
+5. A interface web será carregada e fará fetch para `http://localhost:4000/api` automaticamente.
+
+```bash
+
+
 ```
 
 ---
 
-## Sugestão de Branches
+## 4. Testes com Postman
 
-| Branch     | Descrição                        |
-| ---------- | -------------------------------- |
-| `main`     | Versão estável e final           |
-| `dev`      | Desenvolvimento geral            |
-| `frontend` | Interface e interação do usuário |
-| `api`      | API real (Node + MongoDB)        |
-| `deploy`   | Adaptações para Vercel/Render    |
+1. Abra o **Postman**.
+2. Importe `tests/postman-collection.json`.
+3. Crie um **Environment** com:
+   - `baseUrl = http://localhost:4000/api`
+4. Utilize o **Runner** para executar todos os requests em sequência:
+   - **Listar** → capta IDs → **Obter/Atualizar/Apagar**.
 
----
-
-## Critérios de Avaliação
-
-| Critério                         | Peso |
-| -------------------------------- | ---- |
-| Base de dados JSON correta       | 10%  |
-| API simulada e testada (Postman) | 10%  |
-| Funcionalidade do front-end      | 30%  |
-| Qualidade da API real (Node.js)  | 30%  |
-| Integração front-end/backend     | 10%  |
-| Deploy funcional                 | 10%  |
-| Bonificação (MVC)                | +5%  |
-| Bonificação (Swagger)            | +5%  |
+> ```js
+> const alunos = pm.response.json();
+> if (alunos.length) pm.environment.set("firstAlunoId", alunos[0].id);
+> ```
+>
+> Usei este codigo para ter id dinâmico e usei `{{firstAlunoId}}` nas requests subsequentes.
 
 ---
 
-## Entrega
+## 5. Deploy (Tentativas)
 
-- Entrega via **GitHub Classroom**.
-- O repositório deve conter:
-  - Código funcional
-  - README.md com instruções claras
-  - Links de deploy (front e opcionalmente back)
+- **Frontend (Vercel)**:
 
----
+  - Configurado para pasta `frontend`.
+  - **Status**: dropdown e CRUD local funcionam, mas em produção não carregava `GET /api` (sem backend online).
 
-### Repositório Base
+- **Backend (Render)**:
 
-Usa o repositório template inicial fornecido no GitHub Classroom.
-# TWT1RESTAPI
-# TRAB1_TEMPLATE
+  - Apontado `root directory = backend`.
+  - Variável `MONGODB_URI` configurada.
+  - **Status**: API online em `https://trab1-restapi-pb756.onrender.com/api`.
+
+
+
+
