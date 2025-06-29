@@ -17,7 +17,7 @@ async function carregarCursos() {
     select.innerHTML = '';
     cursos.forEach(curso => {
       const option = document.createElement('option');
-      option.value = curso.id;
+      option.value = curso._id;
       option.textContent = curso.nomeCurso;
       select.appendChild(option);
     });
@@ -90,7 +90,7 @@ tabelaBody.addEventListener("click", async (e) => {
     $("aluno-id").value = id;
     $("nome").value = aluno.nome;
     $("apelido").value = aluno.apelido;
-    $("curso").value = aluno.curso.id; // Usar ID do curso
+    $("curso").value = aluno.curso._id; // Usar ID do curso
     $("ano").value = aluno.anoCurricular;
     $("idade").value = aluno.idade || "";
     
@@ -100,6 +100,7 @@ tabelaBody.addEventListener("click", async (e) => {
 });
 
 form.addEventListener("submit", async (e) => {
+  console.log("➤ submit handler disparou");
   e.preventDefault();
   
   const dados = {
