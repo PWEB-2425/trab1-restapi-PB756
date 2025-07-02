@@ -1,4 +1,4 @@
-const baseUrl = "https://trab1-restapi-pb756-1.onrender.com/api/alunos";
+const baseUrl = "https://trab1-restapi-pb756-1.onrender.com/";
 
 const tabelaBody = document.querySelector("#tabela-alunos tbody");
 const form = document.getElementById("form-aluno");
