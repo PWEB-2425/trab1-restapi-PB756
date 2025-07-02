@@ -58,17 +58,6 @@
     <button type="button" id="btn-cancelar" style="display:none;">Cancelar</button>
   </form>
 
-  <script>
-    (function() {
-      const host = window.location.hostname;
-      if (host.endsWith('.vercel.app')) {
-        window.API_BASE_URL = `https://${host}/api`;
-      } else {
-        window.API_BASE_URL = 'http://localhost:4000/api';
-      }
-    })();
-  </script>
-
   <script src="main.js"></script>
 </body>
 </html>

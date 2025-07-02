@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
-    "seed": "node seed.js",
+    "seed": "node backend/seed.js",
     "dev": "nodemon server.js",
-    "start": "node server.js"
+    "start": "node backend/server.js"
   },
   "dependencies": {
     "cors":    "^2.8.5",

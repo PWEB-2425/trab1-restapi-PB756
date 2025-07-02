@@ -1,4 +1,6 @@
-const baseUrl = "https://trab1-restapi-pb756-1.onrender.com/";
+const baseUrl = window.location.hostname.endsWith('.vercel.app')
+  ? 'https://trab1-restapi-pb756-1.onrender.com/api'
+  : 'http://localhost:4000/api';
 
 const tabelaBody = document.querySelector("#tabela-alunos tbody");
 const form = document.getElementById("form-aluno");
