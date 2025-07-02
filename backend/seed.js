@@ -1,4 +1,3 @@
-// backend/seed.js
 require('dotenv').config();
 const mongoose = require('mongoose');
 const path = require('path');
@@ -35,7 +34,6 @@ async function runSeed () {
 
 module.exports = runSeed;
 
-// ➜ se correres «node backend/seed.js» à parte continua a funcionar
 if (require.main === module) {
   mongoose.connect(process.env.MONGODB_URI)
     .then(runSeed)

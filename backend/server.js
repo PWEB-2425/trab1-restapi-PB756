@@ -1,4 +1,3 @@
-// backend/server.js
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
@@ -8,7 +7,7 @@ const runSeed = require('./seed');
 const Curso = require('./models/curso');
 
 const app = express();
-app.use(cors());                     // <-- permite chamadas do Vercel
+app.use(cors());
 app.use(express.json());
 
 app.get('/', (_req, res) => res.send('API online 🚀'));
@@ -19,7 +18,6 @@ async function start () {
   await mongoose.connect(process.env.MONGODB_URI);
   console.log('🟢 MongoDB ligado');
 
-  // Só semeia se ainda não houver cursos
   if (await Curso.countDocuments() === 0) {
     console.log('🌱 Base de dados vazia – a semear...');
     await runSeed();
