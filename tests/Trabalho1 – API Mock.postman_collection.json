@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "cd210b7a-4ef4-45a8-a6b1-f3a2dd36d01d",
+		"name": "Trabalho1 – API Mock",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46267194",
+		"_collection_link": "https://pedro-6865305.postman.co/workspace/413d362e-b7fd-4464-881c-ce09d6c0d641/collection/46267194-cd210b7a-4ef4-45a8-a6b1-f3a2dd36d01d?action=share&source=collection_link&creator=46267194"
+	},
+	"item": [
+		{
+			"name": "Listar alunos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/alunos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"alunos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obter aluno",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/alunos/{{firstAlunoId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"alunos",
+						"{{firstAlunoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar aluno",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 201\", () => {\r",
+							"  pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Resposta contém id gerado\", () => {\r",
+							"  const json = pm.response.json();\r",
+							"  pm.expect(json).to.have.property(\"id\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Francisco\",\r\n  \"apelido\": \"Ferreira\",\r\n  \"cursoText\": \"Engenharia de Redes e Sistemas de Computadores\",\r\n  \"anoCurricular\": 3,\r\n  \"idade\": 22\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/alunos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"alunos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar aluno",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status 200\", () => {\r",
+							"  pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Ano curricular actualizado\", () => {\r",
+							"  const json = pm.response.json();\r",
+							"  pm.expect(json.anoCurricular).to.eql(3);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nome\": \"Joana\",\r\n  \"apelido\": \"Silva\",\r\n  \"cursoText\": \"Engenharia de Redes e Sistemas de Computadores\",\r\n  \"anoCurricular\": 3,\r\n  \"idade\": 21\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/alunos/{{firstAlunoId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"alunos",
+						"{{firstAlunoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Apagar aluno",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/alunos/{{firstAlunoId}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"alunos",
+						"{{firstAlunoId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar cursos",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/cursos",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"cursos"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
